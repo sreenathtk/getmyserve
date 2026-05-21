@@ -1,0 +1,887 @@
+@media only screen and (min-width:992px)and (max-width:1400px) {
+   .trusted-service-card{
+      min-width: 370px
+   }
+   .enquire-btn {
+      padding: 10px 10px;
+      width: auto !important;
+   }
+
+   .service-info-wrapper {
+      min-height: 150px;
+   }
+
+   .service {
+      width: auto;
+   }
+
+   .swiper-card {
+      min-height: 380px;
+   }
+
+   .service .btns p {
+      font-size: 14px;
+   }
+
+   .about-button {
+      font-size: 16px;
+   }
+}
+
+@media only screen and (min-width:992px) and (max-width:1200px) {
+
+   .service-info-wrapper {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      ;
+   }
+
+   .pill-list {
+      gap: 0;
+   }
+
+
+
+   /* ======================================================
+   01. PAGE: INDEX
+====================================================== */
+
+   /* ---------- 01.02 Service-Info ---------- */
+
+   .service-info-wrapper-header h2 {
+      font-size: var(--fs-18);
+   }
+
+   /* ---------- 03.02 Service-Tab ---------- */
+   .service {
+      width: 100%;
+      padding: 20px;
+   }
+
+   .service .btns.active,
+   .service .btns.bgnd {
+      width: 100%;
+   }
+
+   .Home-Banner-Wrapper {
+      padding: 100px 0px 0px 0px;
+   }
+
+   .Home-Banner-Header h2 {
+      font-size: var(--fs-40);
+   }
+
+   .Home-Banner-Header h3 {
+      font-size: var(--fs-40);
+   }
+
+
+}
+
+@media only screen and (min-width: 991px) {
+   .us-cat-btn.active {
+  background-color: var(--color-green, #03a84e) !important;
+  color: var(--color-white, #ffffff) !important;
+  box-shadow: 0 4px 15px rgba(3, 168, 78, 0.2);
+}
+
+
+   /* ======================================================
+   08. INCLUDES: Mobile Footer
+====================================================== */
+
+   .mobile-footer {
+      display: none !important;
+   }
+}
+
+@media only screen and (max-width: 992px) {
+   .us-cat-btn.active {
+  background-color: var(--color-green, #03a84e) !important;
+  color: var(--color-white, #ffffff) !important;
+  box-shadow: 0 4px 15px rgba(3, 168, 78, 0.2);
+}
+
+   .get-my-header-reg a{
+      padding: 10px 10px !important;
+      font-size: 12px;
+   }
+   .mission-card{
+      min-height: 250px;
+      margin: 0px 0px 20px 0px;
+   }
+   .trusted-service-card {
+      min-width: 300px;
+   }
+
+   .whatsapp-float {
+      bottom: 80px;
+   }
+
+   .whatsapp-float img {
+      width: 30px;
+      /* Adjust size */
+      height: 30px;
+   }
+
+   .sub-plan-btn a {
+      font-size: 14px;
+   }
+
+   .sub-plan-btn a::after {
+      display: none;
+   }
+
+   .about-buttons {
+      font-size: 18px;
+      width: 17%;
+   }
+
+   /* breadcrumb */
+
+
+   .about-banner {
+      height: 400px;
+   }
+
+   .icon-box img {
+      min-width: 500px;
+      height: 200px;
+      max-width: 500px;
+   }
+   .pricing-plan{
+      min-height: 500px;
+   }
+   .price-details{
+      min-height: 230px;
+   }
+   /* ======================================================
+   01. PAGE: INDEX
+====================================================== */
+
+   /* ---------- 01.01 Home-banner ---------- */
+   .Home-Banner-Wrapper {
+      padding: 70px 0px 0px 0px;
+   }
+
+   .Home-Banner {
+      height: auto !important;
+      align-items: inherit;
+      padding: 10px;
+   }
+
+   .Home-Banner-form-input input {
+      margin: 0px 0px 20px 0px !important;
+   }
+
+   .nice-select {
+      margin: 0px 0px 20px 0px !important;
+   }
+
+   .Home-Banner-Header h2 {
+      font-size: var(--fs-40);
+   }
+
+   .Home-Banner-Header h3 {
+      font-size: var(--fs-40);
+   }
+
+   .keywords {
+      display: block;
+   }
+
+   .keywords .title {
+      margin: 0px 0px 20px 0px !important;
+      display: inline-block;
+   }
+
+   .keywords ul {
+      margin: 0px;
+   }
+
+   /* ---------- 01.02 Service-Info ---------- */
+
+   .service-info-wrapper {
+      margin: 0px 0px 20px 0px !important;
+      width: 100%;
+      min-width: 0;
+   }
+
+   .Service-Info {
+      padding: 30px 0px;
+   }
+
+   /* ---------- 01.03 Visa Assistance ---------- */
+
+
+   .pill-list {
+      justify-content: center !important;
+   }
+
+   .Service-Info {
+      padding: 30px 0px 0px 0px;
+   }
+
+   /* ---------- 01.04 Visa Section ---------- */
+
+   .visa-card-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+   }
+
+   .visa-card {
+      border-bottom: 1px solid var(--border-color);
+   }
+
+   .visa-card:last-child {
+      border-bottom: none;
+   }
+
+
+
+   /* ---------- 01.05 Testimonials Section ---------- */
+   .swiper {
+      padding: 0px;
+   }
+
+   .swiper-card {
+      min-height: 360px;
+   }
+
+
+   /* ---------- 03.02 Service-Tab ---------- */
+
+   .service {
+      width: 100% !important;
+      margin-bottom: 30px;
+   }
+
+   .service .btns.active,
+   .service .btns.bgnd {
+      width: 100% !important;
+      border-radius: 10px;
+   }
+
+   .profile-box {
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: left;
+      gap: 15px;
+   }
+
+   .text-box {
+      width: 100%;
+      margin: 10px 0;
+   }
+
+   .text-box i {
+      display: none;
+      /* Hide edit icon on mobile if needed, or adjust */
+   }
+
+   .sticky-services {
+      position: sticky !important;
+   }
+
+
+   /* ======================================================
+   08. INCLUDES: Mobile Footer
+====================================================== */
+
+   .mobile-footer {
+      display: block;
+   }
+
+   body {
+      padding-bottom: 70px !important;
+   }
+
+   .sticky-nav.menu_fixed {
+      /* background-color: var(--color-green); */
+   }
+
+   .service {
+      width: auto;
+   }
+
+   /* service page */
+
+   .profile-box {
+      padding: 20px;
+   }
+
+   /* .text-box {
+      padding: 0px;
+   } */
+
+   .buttn {
+      padding: 0px;
+   }
+
+   /* ======================================================
+   07. PAGE: FOOTER
+====================================================== */
+
+   /* ---------- 07.01 Footer-Top ---------- */
+
+
+   .footer-btn {
+      width: 40%;
+   }
+
+   /* blog-page */
+
+   .blog-card {
+      min-height: auto;
+      height: 100%;
+   }
+   /* .footer-top{
+      padding-top: 0px;
+   } */
+}
+
+@media only screen and (max-width: 768px) {
+   .service-provider-offer-card{
+      margin: 0px 0px 20px 0px;
+   }
+   .faq-hex-group{
+      flex-direction: row;
+   }
+   .mission-card {
+      min-height: 250px;
+   }
+
+   .company-profile-section {
+      padding: 30px 0px;
+   }
+
+   .company-profile-info-section {
+      padding: 0px 0px 30px 0px;
+   }
+
+   .mega-sub {
+      padding: 0px;
+   }
+
+  
+
+   .contents {
+      margin: 0px 0px 0px;
+      padding: 0px;
+   }
+
+   .about-buttons {
+      width: 30% !important;
+   }
+
+   .contents h2 {
+      font-size: 24px;
+   }
+
+
+   /* breadcrumb */
+
+
+   .about-banner {
+      height: 320px;
+   }
+   .footer-wrapper-header h2{
+      margin: 0px 0px 5px 0px;
+   }
+   .footer-wrapper-content-list{
+      margin: 0px 0px 20px 0px;
+   }
+   .footer-wrapper-content-list ul li{
+      margin: 0px 0px 5px 0px;
+   }
+   .how-it-works-section{
+      padding: 40px 0px;
+   }
+   .footer-wrapper-header h2{
+      margin: 0px 0px 5px 0px;
+   }
+
+   /* ======================================================
+   01. PAGE: INDEX
+====================================================== */
+
+   /* ---------- 01.01 Zomming-Slider ---------- */
+
+   .icon-box img {
+      min-width: 300px;
+      height: 200px;
+      max-width: 500px;
+   }
+
+   .profile-box {
+      flex-direction: column;
+      padding: 20px;
+   }
+
+   .text-box-nxt h3 {
+      margin: 10px 0;
+   }
+
+   .icon-box {
+      margin-bottom: 10px;
+   }
+
+
+   .Home-Banner-Wrapper {
+      padding: 0px 0px 0px 0px;
+   }
+
+
+   /* ---------- 01.03 Visa Assistance ---------- */
+
+   .service-info-wrapper {
+      min-width: 400px;
+      height: auto;
+   }
+
+   .blog-card {
+      min-height: auto;
+      height: auto;
+   }
+
+   .swiper-card {
+      min-height: 420px;
+      max-height: 420px;
+   }
+
+   /* ======================================================
+   05. PAGE: BLOG
+====================================================== */
+
+   /* ---------- 05.01 Blog-Card ---------- */
+
+
+   .blog-card {
+      margin: 0px 0px 30px 0px !important;
+   }
+
+   /* ======================================================
+   04. PAGE: CONTACT
+====================================================== */
+
+   /* ---------- 04.01 .contact-section ---------- */
+
+   .contact-section {
+      padding: 0px 0px 20px 0px;
+   }
+
+   .contact-form-box {
+      margin: 0px 0px 20px 0px;
+   }
+
+   .contact-box {
+      margin: 0px 0px 20px 0px;
+   }
+
+   .enquiry-section{
+      padding: 60px 0px;
+   }
+   /* ----------sp register--------- */
+   .registration-form .form-group{
+      margin-bottom: 0px;
+   }
+   .form-group label{
+      margin-bottom: 0px;
+   }
+}
+
+@media only screen and (max-width: 576px) {
+    .trusted-service-card {
+      min-width: 300px;
+   }
+
+   .mission-card {
+      margin: 0px 0px 20px 0px;
+      min-height: 200px;
+   }
+
+   .mission-card-body p {
+      width: auto;
+   }
+
+   .how-header {
+      margin: 0px 0px 20px 0px !important;
+   }
+
+   .about-section {
+      padding: 30px 0px;
+   }
+
+  
+
+   .about-buttons {
+      width: auto !important;
+      position: static;
+   }
+
+   /* breadcrumb */
+
+
+   .about-banner {
+      height: 250px;
+   }
+      .price-details{
+      min-height: 0;
+   }
+   .pricing-plan{
+      min-height: 0;
+   }
+
+   /* ======================================================
+   01. PAGE: INDEX
+====================================================== */
+
+   /* ---------- 01.01 Home-banner ---------- */
+
+   .story-img {
+      margin: 0px 0px 20px 0px;
+   }
+
+   .icon-box img {
+      min-width: 250px;
+      height: 200px;
+      max-width: 500px;
+   }
+
+   .keywords ul {
+      min-width: 200px;
+      display: block;
+   }
+
+   .service-info-wrapper {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+   }
+
+   .visa-header-text p.v-h-t {
+      text-align: justify !important;
+   }
+
+   .visa-header {
+      margin: 10px;
+   }
+
+   .visa-header h2 {
+      margin: 0px 0px 10px 0px;
+   }
+
+   .contact-info-section {
+      padding: 60px 0px 20px 0px;
+   }
+
+   .about-counter {
+      padding: 20px 0px;
+   }
+
+   .features-section {
+
+      padding: 20px 0px;
+   }
+
+   .about-story {
+      display: block !important;
+   }
+
+   .our-story-section {
+      padding: 30px 0px;
+   }
+
+   .leadership-section {
+      padding: 30px 0px;
+   }
+
+   .section-title p {
+      text-align: justify;
+   }
+   .video-content h2{
+      font-size: 26px;
+   }
+   .Home-Banner-Header h2{
+      font-size: 32px;
+   }
+    .Home-Banner-Header h3{
+      font-size: 32px;
+    }
+   /* ---------- 01.04 Visa Section ---------- */
+
+   /* .visa-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+   } */
+
+   .visa-card-wrapper {
+      grid-template-columns: 1fr;
+   }
+
+   /* ======================================================
+   03. PAGE: SERVICE
+====================================================== */
+
+   /* ---------- 03.02 Service-Tab ---------- */
+
+   .service .btns p {
+
+      font-size: var(--fs-14);
+   }
+
+   .service-banner {
+      height: 300px;
+   }
+
+   .blog-banner-content h2 {
+      font-size: var(--fs-28);
+   }
+
+   .service .btns {
+      padding: 10px;
+      font-size: 14px;
+   }
+
+   .service .btns img {
+      width: 20px;
+      height: 20px;
+   }
+
+   .swiper-card {
+      min-height: 320px;
+   }
+   .visa-header-left {
+      text-align: center;
+   }
+   .login-section{
+      padding: 60px 0px 0px 0px;
+   }
+   .content-section h1{
+      font-size: 28px;
+   }
+   .visa-header-left h2{
+      text-align: start;
+   }
+}
+
+@media only screen and (max-width: 320px) {
+   .language {
+      display: block;
+      text-align: start;
+   }
+
+   .icons {
+      display: block;
+   }
+
+   .icons p {
+      margin: 0px 0px 10px 0px;
+   }
+
+   .com-img {
+      top: 20%;
+      left: 65px;
+   }
+
+   .about-button {
+      font-size: 18px;
+   }
+
+   .about-banner-content h2 {
+      font-size: 30px;
+   }
+
+
+   /* breadcrumb */
+
+
+   .about-banner {
+      height: 150px;
+   }
+
+
+   /* ======================================================
+   01. PAGE: INDEX
+====================================================== */
+
+   /* ---------- 01.01 Zomming-Slider ---------- */
+
+   .service .btns {
+      gap: 10px;
+   }
+
+   .profile-box {
+      padding: 15px;
+   }
+
+   .visa-header-left {
+      text-align: center;
+   }
+
+   .visa-header {
+      text-align: center;
+      display: block;
+   }
+
+   .visa-header-text {
+      text-align: justify;
+   }
+
+   .service-info-wrapper-header {
+      text-align: center;
+   }
+
+   /* ---------- 01.03 Visa Assistance ---------- */
+
+   .service-info-wrapper {
+      width: 100%;
+      min-width: 0;
+      display: block;
+      text-align: center;
+   }
+
+   .service-info-wrapper-icon i {
+      border-right: none;
+      margin: 0px 0px 10px 0px;
+      padding: 0;
+   }
+
+   .nav-link {
+      padding: 0px;
+   }
+
+   .test-text-profile p {
+      text-align: left;
+   }
+
+
+
+
+   /* ======================================================
+   03. PAGE: SERVICE
+====================================================== */
+
+   .service .btns.active,
+   .service .btns.bgnd {
+      line-height: normal;
+   }
+
+   .service .btns p {
+      text-align: center;
+   }
+
+   /* ======================================================
+   09. PAGE: LOGIN
+====================================================== */
+
+   .log-check {
+      display: block !important;
+   }
+
+   /* ======================================================
+   07. PAGE: FOOTER
+====================================================== */
+
+   /* ---------- 07.01 Footer-Top ---------- */
+
+
+   .footer-btn {
+      width: 40%;
+      padding: 5px 10px;
+
+   }
+
+   .swiper-card {
+      min-height: 300px;
+   }
+
+   .swiper-card img {
+      width: 70px;
+      height: 70px;
+   }
+
+   .test-text-profile p {
+      font-size: var(--fs-14);
+   }
+
+   .testi-comma {
+      top: 10px;
+      right: 10px;
+   }
+
+   .testi-comma i {
+      font-size: var(--fs-18);
+   }
+
+   .test-bottom-text {
+      padding: 0px 30px 40px 30px;
+   }
+   .visa-header-left h2{
+      font-size: 24px;
+   }
+   .w-100 .how-header{
+      font-size: 34px;
+   }
+   .video-content h2{
+      font-size: 20px;
+   }
+   .trusted-service-providers{
+      padding: 30px 0px;
+   }
+   .enquiry-header h2{
+      font-size: 23px;
+   }
+   .faq-header h2{
+      font-size: 28px;
+   }
+   .service-providers-offer{
+      padding: 40px 0px 0px 0px;
+   }
+   .how-it-works-section{
+      padding-top: 0px;
+   }
+   .Home-Banner-Header h2{
+      font-size: 28px;
+   }
+     .Home-Banner-Header h3{
+      font-size: 28px;
+     }
+     .login-box{
+      padding: 0px;
+     }
+     .content-section h1{
+      font-size: 28px;
+     }
+     .form h2{
+      font-size: 23px;
+      max-width: 700px;
+     }
+     .form{
+      padding: 20px;
+     }
+}
+
+/*-------------company-profile.php---------*/
+@media only screen and (max-width:575px) {
+      .about-content{
+         display: block;
+      }
+      .com-img{
+         margin: 0px 0px 10px 0px;
+      }
+}
+@media only screen and (max-width:400px) {
+      .about-content{
+         display: block;
+      }
+      .com-img{
+         margin: 0px 0px 10px 0px;
+      }
+      .icons {
+         display: block;
+         margin: 0px 0px 10px 0px;
+      }
+
+}
