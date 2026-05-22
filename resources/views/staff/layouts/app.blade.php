@@ -63,6 +63,7 @@
         .badge-soft-info    { background: rgba(80,165,241,.18); color: #50a5f1; }
         .badge-soft-secondary { background: rgba(108,117,125,.18); color: #6c757d; }
         .badge-soft-teal    { background: rgba(20,184,166,.18); color: #0d9488; }
+        .badge-soft-orange  { background: rgba(234,88,12,.15);  color: #c2410c; }
         .footer {
             position: fixed; bottom: 0; left: var(--sidebar-width); right: 0;
             padding: 12px 24px; background: #fff; border-top: 1px solid #eff2f7;

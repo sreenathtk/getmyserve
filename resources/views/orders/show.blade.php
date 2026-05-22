@@ -57,8 +57,9 @@
     .status-paid       { background:#d1e7dd; color:#0f5132; }
     .status-processing { background:#cff4fc; color:#055160; }
     .status-completed  { background:#d1fae5; color:#065f46; }
-    .status-cancelled  { background:#f8d7da; color:#842029; }
-    .status-failed     { background:#f8d7da; color:#842029; }
+    .status-cancelled        { background:#f8d7da; color:#842029; }
+    .status-failed           { background:#f8d7da; color:#842029; }
+    .status-cancel_requested { background:#ffedd5; color:#c2410c; }
     .refund-requested  { background:#fff3cd; color:#856404; }
     .refund-partial    { background:#cff4fc; color:#055160; }
     .refund-full       { background:#f8d7da; color:#842029; }
@@ -470,24 +471,26 @@
                             <i class="fa fa-arrow-left me-2"></i> Back to Orders
                         </a>
 
-                        @if($order->status === 'paid' && $order->refund_status === 'none')
+                        @if(in_array($order->status, ['paid', 'processing']))
                         <div style="border-top:1px solid var(--border-color);padding-top:16px;margin-top:4px;">
                             <p style="font-family:var(--font-secondary);font-size:.85rem;color:#666;margin-bottom:12px;">
-                                Need to cancel everything? Submit a full refund request.
+                                Want to cancel this order? Submit a cancellation request for review.
                             </p>
                             <button type="button" class="btn-refund-request"
-                                    data-bs-toggle="modal" data-bs-target="#refundModal">
-                                <i class="fa-solid fa-rotate-left me-2"></i> Request Full Refund
+                                    style="background-color:#ea580c;"
+                                    data-bs-toggle="modal" data-bs-target="#cancelRequestModal">
+                                <i class="fa-solid fa-ban me-2"></i> Request Cancellation
                             </button>
                         </div>
-                        @elseif($order->refund_status === 'requested')
+                        @elseif($order->status === 'cancel_requested')
                         <div style="border-top:1px solid var(--border-color);padding-top:16px;margin-top:4px;">
                             <div class="alert alert-warning py-2 mb-0" style="font-size:.85rem;">
                                 <i class="fa-solid fa-clock me-1"></i>
-                                Refund request submitted. We'll process it shortly.
+                                Cancellation request submitted. Our team will review it shortly.
                             </div>
                         </div>
                         @endif
+
 
                         <div style="border-top:1px solid var(--border-color);padding-top:16px;margin-top:16px;">
                             <p style="font-family:var(--font-secondary);font-size:.82rem;color:#999;margin:0;">
@@ -501,6 +504,42 @@
             </div>
         </div>
     </section>
+
+    {{-- Cancel Request Modal --}}
+    @if(in_array($order->status, ['paid', 'processing']))
+    <div class="modal fade" id="cancelRequestModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-family:var(--font-secondary);">
+                        <i class="fa-solid fa-ban me-2 text-warning"></i>Request Order Cancellation
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="{{ route('orders.cancel-request', $order) }}">
+                    @csrf
+                    <div class="modal-body">
+                        <p style="font-family:var(--font-secondary);font-size:.9rem;color:#444;">
+                            You are requesting to cancel Order
+                            <strong>#{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</strong>
+                            (AED {{ number_format($order->amount, 2) }}).
+                        </p>
+                        <div class="alert alert-warning py-2" style="font-size:.85rem;">
+                            <i class="fa-solid fa-circle-info me-1"></i>
+                            Your request will be reviewed by our team. The order will only be cancelled once approved.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Keep Order</button>
+                        <button type="submit" class="btn btn-warning btn-sm text-white">
+                            <i class="fa-solid fa-ban me-1"></i> Submit Cancellation Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endif
 
     {{-- Full Refund Modal --}}
     @if($order->status === 'paid' && $order->refund_status === 'none')

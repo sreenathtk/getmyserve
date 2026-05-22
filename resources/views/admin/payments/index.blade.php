@@ -98,18 +98,25 @@
                             <tr>
                                 <td>{{ $payment->id }}</td>
                                 <td>
-                                    @if($payment->order)
+                                    @if($payment->order_id)
                                         <a href="{{ route('admin.orders.show', $payment->order) }}" class="text-primary fw-semibold">
-                                            #{{ str_pad($payment->order_id, 6, '0', STR_PAD_LEFT) }}
+                                            Order #{{ str_pad($payment->order_id, 5, '0', STR_PAD_LEFT) }}
+                                        </a>
+                                    @elseif($payment->enquiry_id)
+                                        <a href="{{ route('admin.enquiries.show', $payment->enquiry) }}" class="text-primary fw-semibold">
+                                            Request #{{ str_pad($payment->enquiry_id, 5, '0', STR_PAD_LEFT) }}
                                         </a>
                                     @else
-                                        —
+                                        <span class="text-muted">—</span>
                                     @endif
                                 </td>
                                 <td>
                                     @if($payment->order?->user)
                                         <div class="fw-semibold">{{ $payment->order->user->name }}</div>
                                         <div class="text-muted small">{{ $payment->order->user->email }}</div>
+                                    @elseif($payment->enquiry)
+                                        <div class="fw-semibold">{{ $payment->enquiry->full_name }}</div>
+                                        <div class="text-muted small">{{ $payment->enquiry->email }}</div>
                                     @else
                                         <span class="text-muted">—</span>
                                     @endif

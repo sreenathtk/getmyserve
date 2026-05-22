@@ -11,9 +11,12 @@ use App\Models\Enquiry;
 use App\Models\EnquiryFile;
 use App\Models\EnquiryStatusLog;
 use App\Models\EnquiryUpdate;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Stripe\Refund;
+use Stripe\Stripe;
 
 class EnquiryController extends Controller
 {
@@ -158,6 +161,58 @@ class EnquiryController extends Controller
         }
 
         return redirect()->back()->with('success', 'Status updated.');
+    }
+
+    public function updatePrice(Request $request, Enquiry $enquiry)
+    {
+        $request->validate([
+            'quoted_price' => 'required|numeric|min:0.01',
+        ]);
+
+        $enquiry->update([
+            'quoted_price' => $request->quoted_price,
+            'quoted_by'    => auth()->id(),
+            'quoted_at'    => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Price updated successfully.');
+    }
+
+    public function refund(Request $request, Enquiry $enquiry)
+    {
+        if (!$enquiry->isRefundable()) {
+            return redirect()->back()->with('error', 'This request is not eligible for a refund.');
+        }
+
+        $request->validate([
+            'refund_amount' => 'required|numeric|min:0.01|max:' . $enquiry->getRefundableAmount(),
+        ]);
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        Refund::create([
+            'payment_intent' => $enquiry->stripe_payment_intent_id,
+            'amount'         => (int) round($request->refund_amount * 100),
+        ]);
+
+        $newRefunded  = (float) $enquiry->refunded_amount + (float) $request->refund_amount;
+        $fullyRefunded = $newRefunded >= (float) $enquiry->paid_amount;
+
+        $enquiry->update([
+            'refunded_amount' => $newRefunded,
+            'payment_status'  => $fullyRefunded ? 'refunded' : 'paid',
+        ]);
+
+        Payment::create([
+            'enquiry_id'               => $enquiry->id,
+            'stripe_payment_intent_id' => $enquiry->stripe_payment_intent_id,
+            'type'                     => 'refund',
+            'amount'                   => $request->refund_amount,
+            'currency'                 => 'AED',
+            'status'                   => 'succeeded',
+        ]);
+
+        return redirect()->back()->with('success', 'Refund of AED ' . number_format($request->refund_amount, 2) . ' processed successfully.');
     }
 
     public function storeFiles(Request $request, Enquiry $enquiry)

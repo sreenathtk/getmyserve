@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\Customer\OrderConfirmed;
 use App\Models\CartItem;
+use App\Models\Enquiry;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -226,7 +227,37 @@ class CheckoutController extends Controller implements HasMiddleware
 
         if ($event->type === 'checkout.session.completed') {
             $session = $event->data->object;
-            $order   = Order::where('stripe_session_id', $session->id)->first();
+
+            // Handle enquiry payments
+            if (($session->metadata['type'] ?? null) === 'enquiry') {
+                $enquiry = Enquiry::where('stripe_session_id', $session->id)->first();
+
+                if ($enquiry && $session->payment_status === 'paid' && !$enquiry->isPaid()) {
+                    $enquiry->update([
+                        'payment_status'           => 'paid',
+                        'paid_amount'              => $enquiry->quoted_price,
+                        'paid_at'                  => now(),
+                        'stripe_payment_intent_id' => $session->payment_intent,
+                    ]);
+
+                    if (!Payment::where('stripe_payment_intent_id', $session->payment_intent)
+                                 ->where('enquiry_id', $enquiry->id)->exists()) {
+                        Payment::create([
+                            'enquiry_id'               => $enquiry->id,
+                            'stripe_payment_intent_id' => $session->payment_intent,
+                            'type'                     => 'charge',
+                            'amount'                   => $enquiry->quoted_price,
+                            'currency'                 => 'AED',
+                            'status'                   => 'succeeded',
+                        ]);
+                    }
+                }
+
+                return response()->json(['status' => 'ok']);
+            }
+
+            // Handle order payments
+            $order = Order::where('stripe_session_id', $session->id)->first();
 
             if ($order && $session->payment_status === 'paid') {
                 $wasAlreadyPaid = $order->status === 'paid';

@@ -10,7 +10,7 @@ class PaymentController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Payment::with(['order.user'])->latest();
+        $query = Payment::with(['order.user', 'enquiry'])->latest();
 
         if ($request->filled('type')) {
             $query->where('type', $request->type);
@@ -25,7 +25,10 @@ class PaymentController extends Controller
                   ->orWhere('stripe_refund_id', 'like', "%{$search}%")
                   ->orWhereHas('order', fn($o) => $o->where('id', 'like', "%{$search}%"))
                   ->orWhereHas('order.user', fn($u) => $u->where('name', 'like', "%{$search}%")
-                                                          ->orWhere('email', 'like', "%{$search}%"));
+                                                          ->orWhere('email', 'like', "%{$search}%"))
+                  ->orWhereHas('enquiry', fn($eq) => $eq->where('id', 'like', "%{$search}%")
+                                                         ->orWhere('full_name', 'like', "%{$search}%")
+                                                         ->orWhere('email', 'like', "%{$search}%"));
             });
         }
 
@@ -39,7 +42,7 @@ class PaymentController extends Controller
 
     public function show(Payment $payment)
     {
-        $payment->load(['order.user', 'order.orderItems']);
+        $payment->load(['order.user', 'order.orderItems', 'enquiry.service']);
 
         return view('admin.payments.show', compact('payment'));
     }

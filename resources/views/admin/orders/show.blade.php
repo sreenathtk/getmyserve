@@ -20,6 +20,22 @@
         </div>
         @endif
 
+        @if($order->status === 'cancel_requested')
+        <div class="alert alert-warning d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <i class="ri-error-warning-line me-2"></i>
+                <strong>Cancellation Requested</strong> — The customer has requested to cancel this order.
+            </div>
+            <form method="POST" action="{{ route('admin.orders.accept-cancellation', $order) }}" class="m-0 ms-3">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Accept this cancellation and mark order as cancelled?')">
+                    <i class="ri-check-line me-1"></i>Accept Cancellation
+                </button>
+            </form>
+        </div>
+        @endif
+
         {{-- Order Header --}}
         <div class="card mb-4">
             <div class="card-body">
@@ -36,9 +52,9 @@
                           class="d-flex gap-2 align-items-center">
                         @csrf @method('PATCH')
                         <select name="status" class="form-select form-select-sm" style="width:auto;">
-                            @foreach(['pending','paid','processing','completed','cancelled','failed'] as $s)
+                            @foreach(['pending','paid','processing','completed','cancel_requested','cancelled','failed'] as $s)
                                 <option value="{{ $s }}" {{ $order->status === $s ? 'selected' : '' }}>
-                                    {{ ucfirst($s) }}
+                                    {{ ucfirst(str_replace('_', ' ', $s)) }}
                                 </option>
                             @endforeach
                         </select>

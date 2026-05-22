@@ -138,6 +138,96 @@
             </div>
         </div>
 
+        {{-- Service Quote --}}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3 d-flex align-items-center gap-2">
+                    <i class="ri-price-tag-3-line text-primary"></i>
+                    Service Quote
+                </h5>
+
+                @if($enquiry->isQuoted())
+                <div class="p-3 bg-light rounded mb-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small mb-1">Quoted Price</div>
+                        <div class="fw-bold fs-5">AED {{ number_format($enquiry->quoted_price, 2) }}</div>
+                        @if($enquiry->quotedBy)
+                        <div class="text-muted small mt-1">
+                            Set by {{ $enquiry->quotedBy->name }}
+                            @if($enquiry->quoted_at)
+                                on {{ $enquiry->quoted_at->format('d M Y, h:i A') }}
+                            @endif
+                        </div>
+                        @endif
+                    </div>
+                    <span class="badge {{ $enquiry->isPaid() ? 'bg-success' : 'bg-warning text-dark' }}">
+                        {{ $enquiry->isPaid() ? 'Paid' : 'Awaiting Payment' }}
+                    </span>
+                </div>
+                @endif
+
+                @if(!$enquiry->isPaid())
+                <form method="POST" action="{{ route('staff.enquiries.update-price', $enquiry) }}"
+                      class="d-flex gap-2 align-items-center">
+                    @csrf @method('PATCH')
+                    <div class="input-group" style="max-width:260px;">
+                        <span class="input-group-text">AED</span>
+                        <input type="number" name="quoted_price" class="form-control form-control-sm"
+                               step="0.01" min="0.01" placeholder="0.00"
+                               value="{{ $enquiry->quoted_price }}">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        {{ $enquiry->isQuoted() ? 'Update Price' : 'Set Price' }}
+                    </button>
+                </form>
+                @endif
+            </div>
+        </div>
+
+        {{-- Payment Status (read-only for staff) --}}
+        @if($enquiry->isPaid() || $enquiry->payment_status === 'refunded')
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3 d-flex align-items-center gap-2">
+                    <i class="ri-secure-payment-line text-primary"></i>
+                    Payment
+                </h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <div class="text-muted small mb-1">Paid Amount</div>
+                            <div class="fw-bold">AED {{ number_format($enquiry->paid_amount, 2) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <div class="text-muted small mb-1">Payment Status</div>
+                            <span class="badge {{ $enquiry->payment_status === 'refunded' ? 'bg-danger' : 'bg-success' }} fs-6">
+                                {{ ucfirst($enquiry->payment_status) }}
+                            </span>
+                        </div>
+                    </div>
+                    @if($enquiry->paid_at)
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <div class="text-muted small mb-1">Paid At</div>
+                            <div class="fw-semibold">{{ $enquiry->paid_at->format('d M Y, h:i A') }}</div>
+                        </div>
+                    </div>
+                    @endif
+                    @if($enquiry->refunded_amount > 0)
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <div class="text-muted small mb-1">Refunded Amount</div>
+                            <div class="fw-semibold text-danger">AED {{ number_format($enquiry->refunded_amount, 2) }}</div>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        @endif
+
         {{-- Related Files (read-only for staff) --}}
         @if($enquiry->files->isNotEmpty())
         <div class="card mb-4">

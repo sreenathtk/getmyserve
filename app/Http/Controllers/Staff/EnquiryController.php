@@ -126,6 +126,23 @@ class EnquiryController extends Controller
         return redirect()->back()->with('success', 'Status updated successfully.');
     }
 
+    public function updatePrice(Request $request, Enquiry $enquiry)
+    {
+        abort_unless(in_array($enquiry->service_id, $this->accessibleServiceIds()), 403);
+
+        $request->validate([
+            'quoted_price' => 'required|numeric|min:0.01',
+        ]);
+
+        $enquiry->update([
+            'quoted_price' => $request->quoted_price,
+            'quoted_by'    => auth()->id(),
+            'quoted_at'    => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Price updated successfully.');
+    }
+
     private function accessibleServiceIds(): array
     {
         $assignments = auth()->user()->staffAssignments;

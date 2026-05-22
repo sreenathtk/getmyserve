@@ -155,6 +155,7 @@
         .badge-soft-primary { background: rgba(86,100,210,.18); color: #5664d2; }
         .badge-soft-info    { background: rgba(80,165,241,.18); color: #50a5f1; }
         .badge-soft-teal    { background: rgba(20,184,166,.18); color: #0d9488; }
+        .badge-soft-orange  { background: rgba(234,88,12,.15);  color: #c2410c; }
 
         /* Footer */
         .footer {

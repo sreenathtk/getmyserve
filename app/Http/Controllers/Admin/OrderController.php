@@ -54,7 +54,7 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request, Order $order)
     {
-        $request->validate(['status' => 'required|in:pending,paid,processing,completed,cancelled,failed']);
+        $request->validate(['status' => 'required|in:pending,paid,processing,completed,cancel_requested,cancelled,failed']);
 
         $oldStatus = $order->status;
         $order->update(['status' => $request->status]);
@@ -68,6 +68,17 @@ class OrderController extends Controller
         }
 
         return redirect()->back()->with('success', 'Order status updated.');
+    }
+
+    public function acceptCancellation(Order $order)
+    {
+        abort_unless($order->status === 'cancel_requested', 422);
+
+        $order->update(['status' => 'cancelled']);
+
+        event(new OrderStatusUpdated($order, 'cancelled'));
+
+        return redirect()->back()->with('success', 'Cancellation accepted. Order has been cancelled.');
     }
 
     public function assignStaff(Request $request, Order $order)
