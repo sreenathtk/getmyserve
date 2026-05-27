@@ -124,20 +124,28 @@
                     <div>
                         <div class="fw-semibold">{{ $snap['title'] }}</div>
                         <div class="text-muted small mt-1">
-                            Original: AED {{ number_format($snap['original_price'], 2) }}
-                            &nbsp;→&nbsp; Offer price: AED {{ number_format($snap['offer_price'], 2) }}
+                            @if(isset($snap['original_price']))
+                                Original: AED {{ number_format($snap['original_price'], 2) }}
+                                &nbsp;→&nbsp; Offer price: AED {{ number_format($snap['offer_price'], 2) }}
+                            @else
+                                Package Price: AED {{ number_format($snap['offer_price'], 2) }}
+                            @endif
                         </div>
                     </div>
+                    @if(isset($snap['discount']))
                     <div class="fw-bold text-success ms-3" style="white-space:nowrap;">
                         − AED {{ number_format($snap['discount'], 2) }}
                     </div>
+                    @endif
                 </div>
                 @endforeach
 
+                @if($order->discount_amount > 0)
                 <div class="d-flex justify-content-between small text-muted pt-2 border-top">
                     <span>Total discount applied</span>
                     <strong class="text-success">− AED {{ number_format($order->discount_amount, 2) }}</strong>
                 </div>
+                @endif
             </div>
         </div>
         @endif

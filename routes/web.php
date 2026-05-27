@@ -17,6 +17,7 @@ use App\Http\Controllers\ServiceReviewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\AssistanceRequestController;
 use App\Http\Controllers\Admin\EnquiryController as AdminEnquiryController;
@@ -61,6 +62,9 @@ Route::get('/categories', [CategoriesController::class, 'index'])->name('categor
 // Services listing (filtered by sub-category)
 Route::get('/services', [ServicesController::class, 'index'])->name('services.index');
 
+// Package detail (public)
+Route::get('/packages/{offer}', [PackageController::class, 'show'])->name('packages.show');
+
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
@@ -71,6 +75,7 @@ Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 // Checkout (Stripe) — requires login
 Route::middleware('auth')->group(function () {
     Route::post('/checkout/session', [CheckoutController::class, 'session'])->name('checkout.session');
+    Route::post('/packages/{offer}/checkout', [PackageController::class, 'checkout'])->name('packages.checkout');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
     // Customer orders

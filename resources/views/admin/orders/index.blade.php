@@ -43,11 +43,19 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-sm-2">
+                        <label class="form-label small text-muted mb-1">Order Type</label>
+                        <select name="order_type" class="form-select form-select-sm">
+                            <option value="">All Types</option>
+                            <option value="package" {{ request('order_type') === 'package' ? 'selected' : '' }}>Package</option>
+                            <option value="regular" {{ request('order_type') === 'regular' ? 'selected' : '' }}>Regular</option>
+                        </select>
+                    </div>
                     <div class="col-sm-auto d-flex gap-2">
                         <button type="submit" class="btn btn-sm btn-primary">
                             <i class="ri-filter-line me-1"></i> Filter
                         </button>
-                        @if(request()->hasAny(['search','status','refund_status']))
+                        @if(request()->hasAny(['search','status','refund_status','order_type']))
                             <a href="{{ route('admin.orders.index') }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="ri-close-line me-1"></i> Clear
                             </a>
@@ -67,6 +75,7 @@
                         <thead>
                             <tr>
                                 <th>Order #</th>
+                                <th>Type</th>
                                 <th>Customer</th>
                                 <th>Amount</th>
                                 <th>Status</th>
@@ -81,6 +90,13 @@
                             @forelse($orders as $order)
                             <tr>
                                 <td><strong>#{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</strong></td>
+                                <td>
+                                    @if($order->offer_snapshot)
+                                        <span class="badge badge-soft-info">Package</span>
+                                    @else
+                                        <span class="text-muted small">Regular</span>
+                                    @endif
+                                </td>
                                 <td>
                                     @if($order->user)
                                         <div class="fw-semibold">{{ $order->user->name }}</div>
@@ -119,7 +135,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="9" class="text-center text-muted py-4">No orders found</td>
+                                <td colspan="10" class="text-center text-muted py-4">No orders found</td>
                             </tr>
                             @endforelse
                         </tbody>
