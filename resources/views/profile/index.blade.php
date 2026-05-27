@@ -115,8 +115,9 @@
     .status-paid       { background:#d1e7dd; color:#0f5132; }
     .status-processing { background:#cff4fc; color:#055160; }
     .status-completed  { background:#d1fae5; color:#065f46; }
-    .status-cancelled  { background:#f8d7da; color:#842029; }
-    .status-failed     { background:#f8d7da; color:#842029; }
+    .status-cancelled          { background:#f8d7da; color:#842029; }
+    .status-failed             { background:#f8d7da; color:#842029; }
+    .status-cancel_requested   { background:#ffedd5; color:#c2410c; }
     .refund-requested  { background:#fff3cd; color:#856404; }
     .refund-partial    { background:#cff4fc; color:#055160; }
     .refund-full       { background:#f8d7da; color:#842029; }
@@ -155,6 +156,12 @@
         color: var(--color-dk-gray);
     }
     .orders-empty i { font-size: 3.5rem; opacity: .2; display: block; margin-bottom: 14px; }
+
+    /* Request status badges */
+    .status-in_progress     { background:#cff4fc; color:#055160; }
+    .status-under_processing{ background:#e0d7f8; color:#4a2c91; }
+    .status-resolved        { background:#d1fae5; color:#065f46; }
+    .status-pending         { background:#fff3cd; color:#856404; }
 
     @media (max-width: 576px) {
         .profile-card { padding: 24px 16px; }
@@ -219,6 +226,20 @@
                     <button class="profile-tab-btn {{ session('tab') === 'orders' ? 'active' : '' }}"
                             data-tab="orders" role="tab">
                         <i class="fa-solid fa-box"></i> My Orders
+                    </button>
+                    <button class="profile-tab-btn {{ session('tab') === 'requests' ? 'active' : '' }}"
+                            data-tab="requests" role="tab">
+                        <i class="ri-mail-send-line"></i> Service Requests
+                        @if($enquiries->isNotEmpty())
+                            <span style="background:var(--color-green);color:#fff;border-radius:20px;padding:1px 8px;font-size:11px;">{{ $enquiries->count() }}</span>
+                        @endif
+                    </button>
+                    <button class="profile-tab-btn {{ session('tab') === 'assistance' ? 'active' : '' }}"
+                            data-tab="assistance" role="tab">
+                        <i class="ri-customer-service-2-line"></i> Assistance
+                        @if($assistanceRequests->isNotEmpty())
+                            <span style="background:var(--color-green);color:#fff;border-radius:20px;padding:1px 8px;font-size:11px;">{{ $assistanceRequests->count() }}</span>
+                        @endif
                     </button>
                 </div>
 
@@ -372,6 +393,7 @@
                 {{-- Orders Tab --}}
                 <div class="profile-tab-pane {{ session('tab') === 'orders' ? 'active' : '' }}"
                      id="tab-orders">
+
                     <h2 class="profile-section-title">Recent Orders</h2>
 
                     @if($orders->isEmpty())
@@ -424,6 +446,107 @@
                     @endif
                 </div>
 
+                {{-- Service Requests Tab --}}
+                <div class="profile-tab-pane {{ session('tab') === 'requests' ? 'active' : '' }}"
+                     id="tab-requests">
+                    <h2 class="profile-section-title">My Service Requests</h2>
+
+                    @if($enquiries->isEmpty())
+                        <div class="orders-empty">
+                            <i class="ri-mail-send-line"></i>
+                            <p style="font-size:1.1rem;margin-bottom:8px;">No service requests yet</p>
+                            <p style="font-size:.9rem;opacity:.6;margin-bottom:20px;">
+                                Submit a service request and it will appear here.
+                            </p>
+                        </div>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Service</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($enquiries as $enquiry)
+                                    <tr>
+                                        <td><strong>#{{ str_pad($enquiry->id, 5, '0', STR_PAD_LEFT) }}</strong></td>
+                                        <td>{{ $enquiry->created_at->format('d M Y') }}</td>
+                                        <td>{{ $enquiry->service?->name ?? '—' }}</td>
+                                        <td>
+                                            <span class="status-badge status-{{ $enquiry->status }}">
+                                                {{ ucfirst(str_replace('_', ' ', $enquiry->status)) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('profile.enquiry', $enquiry) }}" class="btn-view-order">
+                                                View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+
+                {{-- Assistance Requests Tab --}}
+                <div class="profile-tab-pane {{ session('tab') === 'assistance' ? 'active' : '' }}"
+                     id="tab-assistance">
+                    <h2 class="profile-section-title">My Assistance Requests</h2>
+
+                    @if($assistanceRequests->isEmpty())
+                        <div class="orders-empty">
+                            <i class="ri-customer-service-2-line"></i>
+                            <p style="font-size:1.1rem;margin-bottom:8px;">No assistance requests yet</p>
+                            <p style="font-size:.9rem;opacity:.6;margin-bottom:20px;">
+                                Need help? Submit an assistance request and our team will get back to you.
+                            </p>
+                            <a href="{{ route('assistance-request.create') }}" class="btn-view-order">
+                                Request Assistance <i class="fa fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Service</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($assistanceRequests as $ar)
+                                    <tr>
+                                        <td><strong>#{{ str_pad($ar->id, 5, '0', STR_PAD_LEFT) }}</strong></td>
+                                        <td>{{ $ar->created_at->format('d M Y') }}</td>
+                                        <td>{{ $ar->service?->name ?? 'General Assistance' }}</td>
+                                        <td>
+                                            <span class="status-badge status-{{ $ar->status }}">
+                                                {{ ucfirst(str_replace('_', ' ', $ar->status)) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('profile.assistance', $ar) }}" class="btn-view-order">
+                                                View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+
             </div>
         </div>
     </section>
@@ -436,15 +559,26 @@
     const btns  = document.querySelectorAll('.profile-tab-btn');
     const panes = document.querySelectorAll('.profile-tab-pane');
 
+    function activateTab(name) {
+        btns.forEach(function (b) { b.classList.remove('active'); });
+        panes.forEach(function (p) { p.classList.remove('active'); });
+        const btn  = document.querySelector('[data-tab="' + name + '"]');
+        const pane = document.getElementById('tab-' + name);
+        if (btn)  btn.classList.add('active');
+        if (pane) pane.classList.add('active');
+    }
+
     btns.forEach(function (btn) {
         btn.addEventListener('click', function () {
-            const target = this.dataset.tab;
-            btns.forEach(function (b) { b.classList.remove('active'); });
-            panes.forEach(function (p) { p.classList.remove('active'); });
-            this.classList.add('active');
-            document.getElementById('tab-' + target).classList.add('active');
+            activateTab(this.dataset.tab);
         });
     });
+
+    // Activate from ?tab= URL param (used by back-links on detail pages)
+    const urlTab = new URLSearchParams(window.location.search).get('tab');
+    if (urlTab && document.querySelector('[data-tab="' + urlTab + '"]')) {
+        activateTab(urlTab);
+    }
 }());
 </script>
 @endpush

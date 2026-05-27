@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Enquiry;
 
 class Payment extends Model
 {
     protected $fillable = [
         'order_id',
+        'enquiry_id',
         'stripe_payment_intent_id',
         'stripe_refund_id',
         'type',
@@ -26,6 +28,11 @@ class Payment extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function enquiry(): BelongsTo
+    {
+        return $this->belongsTo(Enquiry::class);
     }
 
     public function getTypeLabel(): string

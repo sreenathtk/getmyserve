@@ -45,6 +45,16 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Order status updated.');
     }
 
+    public function acceptCancellation(Order $order)
+    {
+        abort_unless($order->assigned_staff_id === auth()->id(), 403);
+        abort_unless($order->status === 'cancel_requested', 422);
+
+        $order->update(['status' => 'cancelled']);
+
+        return redirect()->back()->with('success', 'Cancellation accepted. Order has been cancelled.');
+    }
+
     public function assignSp(Request $request, Order $order)
     {
         abort_unless($order->assigned_staff_id === auth()->id(), 403);

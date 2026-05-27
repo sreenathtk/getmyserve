@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssistanceRequest;
+use App\Models\Enquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -10,9 +12,26 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        $user = auth()->user();
-        $orders = $user->orders()->latest()->paginate(5);
-        return view('profile.index', compact('user', 'orders'));
+        $user               = auth()->user();
+        $orders             = $user->orders()->latest()->paginate(5);
+        $enquiries          = Enquiry::where('user_id', $user->id)->with('service')->latest()->get();
+        $assistanceRequests = AssistanceRequest::where('user_id', $user->id)->with('service')->latest()->get();
+
+        return view('profile.index', compact('user', 'orders', 'enquiries', 'assistanceRequests'));
+    }
+
+    public function enquiryDetail(Enquiry $enquiry)
+    {
+        abort_unless($enquiry->user_id === auth()->id(), 403);
+        $enquiry->load('service.subCategory.category');
+        return view('profile.enquiry-detail', compact('enquiry'));
+    }
+
+    public function assistanceDetail(AssistanceRequest $assistanceRequest)
+    {
+        abort_unless($assistanceRequest->user_id === auth()->id(), 403);
+        $assistanceRequest->load('service');
+        return view('profile.assistance-detail', compact('assistanceRequest'));
     }
 
     public function update(Request $request)

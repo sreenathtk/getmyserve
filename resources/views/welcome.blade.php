@@ -30,8 +30,8 @@
                     <div class="col-lg-10 col-md-12 col-sm-12 col-12">
                         <div class="Home-Banner-Wrapper">
                             <div class="Home-Banner-Header">
-                                <h2>your one-stop Solution for </h2>
-                                <h3>professional services</h3>
+                                <h2>You're One-Stop Solution For </h2>
+                                <h3>Professional Services</h3>
                             </div>
                             <div class="Home-Banner-form">
                                 <div class="home-banner-sub-form">

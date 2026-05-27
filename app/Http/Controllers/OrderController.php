@@ -32,6 +32,19 @@ class OrderController extends Controller implements HasMiddleware
         return view('orders.show', compact('order'));
     }
 
+    public function requestCancellation(Order $order)
+    {
+        abort_unless($order->user_id === auth()->id(), 403);
+
+        if (!in_array($order->status, ['paid', 'processing'])) {
+            return redirect()->back()->with('error', 'This order cannot be cancelled at this stage.');
+        }
+
+        $order->update(['status' => 'cancel_requested']);
+
+        return redirect()->back()->with('success', 'Your cancellation request has been submitted. Our team will review it shortly.');
+    }
+
     public function requestRefund(Request $request, Order $order)
     {
         abort_unless($order->user_id === auth()->id(), 403);

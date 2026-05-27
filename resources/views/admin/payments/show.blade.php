@@ -40,14 +40,19 @@
                     </div>
                     <div class="col-12">
                         <div class="p-3 bg-light rounded">
-                            <div class="text-muted small mb-1">Order</div>
-                            @if($payment->order)
+                            <div class="text-muted small mb-1">Source</div>
+                            @if($payment->order_id)
                                 <a href="{{ route('admin.orders.show', $payment->order) }}" class="fw-semibold text-primary">
-                                    Order #{{ str_pad($payment->order_id, 6, '0', STR_PAD_LEFT) }}
+                                    Order #{{ str_pad($payment->order_id, 5, '0', STR_PAD_LEFT) }}
                                 </a>
-                                @if($payment->order->user)
+                                @if($payment->order?->user)
                                     &nbsp;·&nbsp; {{ $payment->order->user->name }} ({{ $payment->order->user->email }})
                                 @endif
+                            @elseif($payment->enquiry_id)
+                                <a href="{{ route('admin.enquiries.show', $payment->enquiry) }}" class="fw-semibold text-primary">
+                                    Request #{{ str_pad($payment->enquiry_id, 5, '0', STR_PAD_LEFT) }}
+                                </a>
+                                &nbsp;·&nbsp; {{ $payment->enquiry->full_name }} ({{ $payment->enquiry->email }})
                             @else
                                 <span class="text-muted">—</span>
                             @endif
@@ -120,6 +125,35 @@
                             </tr>
                         </tfoot>
                     </table>
+                </div>
+            </div>
+        </div>
+        @elseif($payment->enquiry)
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3 d-flex align-items-center gap-2">
+                    <i class="ri-file-list-3-line text-primary"></i>
+                    Service Request
+                </h5>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <a href="{{ route('admin.enquiries.show', $payment->enquiry) }}" class="fw-semibold text-primary fs-6">
+                            Request #{{ str_pad($payment->enquiry->id, 5, '0', STR_PAD_LEFT) }}
+                        </a>
+                        @if($payment->enquiry->service)
+                        <div class="text-muted small mt-1">
+                            <i class="ri-stack-line me-1"></i>{{ $payment->enquiry->service->name }}
+                        </div>
+                        @endif
+                        <div class="text-muted small mt-1">
+                            <i class="ri-user-line me-1"></i>{{ $payment->enquiry->full_name }}
+                            &nbsp;·&nbsp; {{ $payment->enquiry->email }}
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div class="text-muted small mb-1">Quoted Price</div>
+                        <div class="fw-bold">AED {{ number_format($payment->enquiry->quoted_price ?? $payment->amount, 2) }}</div>
+                    </div>
                 </div>
             </div>
         </div>

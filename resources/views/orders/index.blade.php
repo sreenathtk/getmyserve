@@ -45,8 +45,9 @@
     .status-paid       { background:#d1e7dd; color:#0f5132; }
     .status-processing { background:#cff4fc; color:#055160; }
     .status-completed  { background:#d1fae5; color:#065f46; }
-    .status-cancelled  { background:#f8d7da; color:#842029; }
-    .status-failed     { background:#f8d7da; color:#842029; }
+    .status-cancelled        { background:#f8d7da; color:#842029; }
+    .status-failed           { background:#f8d7da; color:#842029; }
+    .status-cancel_requested { background:#ffedd5; color:#c2410c; }
     .refund-requested  { background:#fff3cd; color:#856404; }
     .refund-partial    { background:#cff4fc; color:#055160; }
     .refund-full       { background:#f8d7da; color:#842029; }

@@ -14,6 +14,22 @@
         </div>
         @endif
 
+        @if($order->status === 'cancel_requested')
+        <div class="alert alert-warning d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <i class="ri-error-warning-line me-2"></i>
+                <strong>Cancellation Requested</strong> — The customer has requested to cancel this order.
+            </div>
+            <form method="POST" action="{{ route('staff.orders.accept-cancellation', $order) }}" class="m-0 ms-3">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Accept this cancellation and mark order as cancelled?')">
+                    <i class="ri-check-line me-1"></i>Accept Cancellation
+                </button>
+            </form>
+        </div>
+        @endif
+
         {{-- Header --}}
         <div class="card mb-4">
             <div class="card-body">
@@ -24,6 +40,7 @@
                         </h5>
                         <small class="text-muted">{{ $order->created_at->format('d M Y, h:i A') }}</small>
                     </div>
+                    @if($order->status !== 'cancel_requested')
                     <form method="POST" action="{{ route('staff.orders.update-status', $order) }}"
                           class="d-flex gap-2 align-items-center">
                         @csrf @method('PATCH')
@@ -33,6 +50,7 @@
                         </select>
                         <button type="submit" class="btn btn-sm btn-primary">Update</button>
                     </form>
+                    @endif
                 </div>
 
                 <div class="row g-3">

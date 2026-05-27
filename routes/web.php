@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceBookingController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EnquiryPaymentController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\WatiTemplateController;
@@ -75,6 +76,7 @@ Route::middleware('auth')->group(function () {
     // Customer orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order}/cancel-request', [OrderController::class, 'requestCancellation'])->name('orders.cancel-request');
     Route::post('/orders/{order}/refund-request', [OrderController::class, 'requestRefund'])->name('orders.refund-request');
     Route::post('/orders/{order}/items/{item}/cancel', [OrderController::class, 'cancelItem'])->name('orders.items.cancel');
 
@@ -82,6 +84,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::get('/my-requests/{enquiry}', [ProfileController::class, 'enquiryDetail'])->name('profile.enquiry');
+    Route::get('/my-assistance/{assistanceRequest}', [ProfileController::class, 'assistanceDetail'])->name('profile.assistance');
+
+    // Enquiry payment (quote → Stripe → success)
+    Route::post('/my-requests/{enquiry}/checkout', [EnquiryPaymentController::class, 'checkout'])->name('enquiries.checkout');
+    Route::get('/my-requests/{enquiry}/payment/success', [EnquiryPaymentController::class, 'success'])->name('enquiries.payment.success');
 });
 
 // Stripe webhook — no CSRF, handled by Stripe signature verification
@@ -204,6 +212,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/orders/{order}/files', [AdminOrderController::class, 'storeFiles'])->name('orders.files.store');
     Route::delete('/orders/{order}/files/{file}', [AdminOrderController::class, 'destroyFile'])->name('orders.files.destroy');
     Route::post('/orders/{order}/refund', [AdminOrderController::class, 'refund'])->name('orders.refund');
+    Route::post('/orders/{order}/accept-cancellation', [AdminOrderController::class, 'acceptCancellation'])->name('orders.accept-cancellation');
+
+    // Enquiry quote & refund (admin)
+    Route::patch('/enquiries/{enquiry}/price', [AdminEnquiryController::class, 'updatePrice'])->name('enquiries.update-price');
+    Route::post('/enquiries/{enquiry}/refund', [AdminEnquiryController::class, 'refund'])->name('enquiries.refund');
 
     // Payments
     Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
@@ -245,6 +258,7 @@ Route::middleware(['auth', 'role:staff'])->prefix('staff')->name('staff.')->grou
     Route::get('/enquiries', [StaffEnquiryController::class, 'index'])->name('enquiries.index');
     Route::get('/enquiries/{enquiry}', [StaffEnquiryController::class, 'show'])->name('enquiries.show');
     Route::patch('/enquiries/{enquiry}/status', [StaffEnquiryController::class, 'updateStatus'])->name('enquiries.update-status');
+    Route::patch('/enquiries/{enquiry}/price', [StaffEnquiryController::class, 'updatePrice'])->name('enquiries.update-price');
     Route::post('/enquiries/{enquiry}/updates', [StaffEnquiryController::class, 'storeUpdate'])->name('enquiries.updates.store');
 
     // Customers (read-only)
@@ -263,6 +277,7 @@ Route::middleware(['auth', 'role:staff'])->prefix('staff')->name('staff.')->grou
     Route::get('/orders/{order}', [StaffOrderController::class, 'show'])->name('orders.show');
     Route::patch('/orders/{order}/status', [StaffOrderController::class, 'updateStatus'])->name('orders.update-status');
     Route::patch('/orders/{order}/assign-sp', [StaffOrderController::class, 'assignSp'])->name('orders.assign-sp');
+    Route::post('/orders/{order}/accept-cancellation', [StaffOrderController::class, 'acceptCancellation'])->name('orders.accept-cancellation');
 
     Route::get('/change-requests', [StaffChangeRequestController::class, 'index'])->name('change-requests.index');
     Route::get('/change-requests/create', [StaffChangeRequestController::class, 'create'])->name('change-requests.create');

@@ -75,13 +75,19 @@ class Order extends Model
     public function getStatusBadgeClass(): string
     {
         return match($this->status) {
-            'paid'        => 'badge-soft-success',
-            'processing'  => 'badge-soft-info',
-            'completed'   => 'badge-soft-teal',
-            'cancelled'   => 'badge-soft-danger',
-            'failed'      => 'badge-soft-danger',
-            default       => 'badge-soft-warning', // pending
+            'paid'             => 'badge-soft-success',
+            'processing'       => 'badge-soft-info',
+            'completed'        => 'badge-soft-teal',
+            'cancel_requested' => 'badge-soft-orange',
+            'cancelled'        => 'badge-soft-danger',
+            'failed'           => 'badge-soft-danger',
+            default            => 'badge-soft-warning', // pending
         };
+    }
+
+    public function isCancellationRequested(): bool
+    {
+        return $this->status === 'cancel_requested';
     }
 
     public function getRefundStatusBadgeClass(): string
