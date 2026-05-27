@@ -125,14 +125,10 @@
                                         class="offer-desc {{ $offer->is_featured ? 'text-white-50' : '' }} d-none d-md-block">
                                         {{ $offer->offer_detail }}</p>
                                 @endif
-                                <form method="POST" action="{{ route('cart.addOffer') }}" class="m-0">
-                                    @csrf
-                                    <input type="hidden" name="offer_id" value="{{ $offer->id }}">
-                                    <button type="submit"
-                                        class="btn-offer-cta claim-offer {{ $offer->is_featured ? 'btn-featured-cta' : '' }}">
-                                        {{ $offer->button_text }} <i class="fas fa-arrow-right ms-2"></i>
-                                    </button>
-                                </form>
+                                <a href="{{ route('packages.show', $offer) }}"
+                                    class="btn-offer-cta claim-offer {{ $offer->is_featured ? 'btn-featured-cta' : '' }}">
+                                    {{ $offer->button_text }} <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
                             </div>
                         </div>
                     @endforeach

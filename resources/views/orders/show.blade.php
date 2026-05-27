@@ -291,13 +291,19 @@
                                     {{ $offer['title'] }}
                                 </div>
                                 <div style="font-family:var(--font-secondary);font-size:.82rem;color:#666;margin-top:3px;">
-                                    Original: AED {{ number_format($offer['original_price'], 2) }}
-                                    &nbsp;→&nbsp; Offer price: AED {{ number_format($offer['offer_price'], 2) }}
+                                    @if(isset($offer['original_price']))
+                                        Original: AED {{ number_format($offer['original_price'], 2) }}
+                                        &nbsp;→&nbsp; Offer price: AED {{ number_format($offer['offer_price'], 2) }}
+                                    @else
+                                        Package Price: AED {{ number_format($offer['offer_price'], 2) }}
+                                    @endif
                                 </div>
                             </div>
+                            @if(isset($offer['discount']))
                             <div style="font-family:var(--font-secondary);font-weight:700;color:var(--color-green);white-space:nowrap;padding-left:12px;">
                                 − AED {{ number_format($offer['discount'], 2) }}
                             </div>
+                            @endif
                         </div>
                         @endforeach
                     </div>
@@ -362,7 +368,11 @@
                                         @endif
                                     </div>
                                     <span class="item-price {{ $item->status === 'cancelled' ? 'striked' : '' }}">
-                                        AED {{ number_format($item->price, 2) }}
+                                        @if($item->price > 0)
+                                            AED {{ number_format($item->price, 2) }}
+                                        @else
+                                            —
+                                        @endif
                                     </span>
                                 </div>
                                 @endforeach
@@ -383,7 +393,11 @@
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <span class="item-price {{ $item->status === 'cancelled' ? 'striked' : '' }}">
-                                    AED {{ number_format($item->price, 2) }}
+                                    @if($item->price > 0)
+                                        AED {{ number_format($item->price, 2) }}
+                                    @else
+                                        —
+                                    @endif
                                 </span>
                                 @if($canCancel && $item->status === 'active')
                                     <button type="button" class="btn-cancel-item"

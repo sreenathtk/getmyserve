@@ -27,6 +27,13 @@ class OrderController extends Controller
         if ($request->filled('refund_status')) {
             $query->where('refund_status', $request->refund_status);
         }
+        if ($request->filled('order_type')) {
+            if ($request->order_type === 'package') {
+                $query->whereNotNull('offer_snapshot');
+            } elseif ($request->order_type === 'regular') {
+                $query->whereNull('offer_snapshot');
+            }
+        }
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {

@@ -202,10 +202,13 @@ class CheckoutController extends Controller implements HasMiddleware
                 'status'                    => 'succeeded',
             ]);
 
-            CartItem::where('user_id', auth()->id())
-                ->whereNotNull('price')
-                ->where('price', '>', 0)
-                ->delete();
+            // Package orders bypass the cart — don't wipe unrelated cart items
+            if (($stripeSession->metadata['source'] ?? null) !== 'package') {
+                CartItem::where('user_id', auth()->id())
+                    ->whereNotNull('price')
+                    ->where('price', '>', 0)
+                    ->delete();
+            }
 
             event(new OrderConfirmed($order));
         }
